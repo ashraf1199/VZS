@@ -30,10 +30,10 @@
   <div class="col-sm-4 offset-sm-1">
     <h4>Select Shipping Address</h4>
     <hr>
-    <form action="/paymentdone">
+    <form action="/paymentdone" id="myform">
       {% for ad in add %}
         <div class="card">
-          <div class="card-body" id="myform">
+          <div class="card-body">
             <h5>{{ad.name}}</h5>
             <p>{{ad.locality}}, {{ad.city}}, {{ad.state}} - {{ad.zipcode}}</p>
           </div>
