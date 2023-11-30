@@ -1,0 +1,8 @@
+1 - Delete the env folder in the directory, thats only a virtual environment created to run the code.
+2 - Create your own virtual environment
+    virtualenv env
+    source env/bin/activate (for Linux/Mac OS ) or env\Scripts\activate.bat (for Windows)
+3 - cd apnamart
+4 - pip install -r requirements.txt
+5 - python manage.py migrate
+6 - python manage.py runserver

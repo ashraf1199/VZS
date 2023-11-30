@@ -4,6 +4,7 @@ from django.views import View
 #from platformdirs import user_config_path
 from django.conf import settings
 from django.core.mail import send_mail
+from django.core.mail import EmailMessage
 import uuid
 from .models import Customer, Cart, Product, OrderPlaced, Verification, Brand
 from .forms import CustomerRegistrationForm, CustomerProfileForm, LoginForm
@@ -90,6 +91,14 @@ def eAccessories(request):
 
 
 class CustomerRegistrationView(View):
+    def sending_mail(self, email):
+
+        subject = 'Welcome to MySite'
+        body = 'Thank you for registering with us. Please click the link below to verify your email address: http://example.com/verify-email/'
+        to = [email]
+
+        emails = EmailMessage(subject, body, to=to)
+        emails.send()
     def get(self, request):
         form = CustomerRegistrationForm()
         return render(request, 'app/customerregistration.html', {'form': form})
@@ -98,6 +107,7 @@ class CustomerRegistrationView(View):
         form = CustomerRegistrationForm(request.POST)
         if form.is_valid():
             new_user = form.save()
+            self.sending_mail(new_user.email)
             # uid = uuid.uuid4()
             # pro_obj = Verification(user=new_user, token=uid)
             # pro_obj.save()
@@ -105,7 +115,7 @@ class CustomerRegistrationView(View):
             messages.success(request, "Your Account Created Successful, To Verifi your account Check your email.")
             return render(request, 'app/customerregistration.html', {'form': form})
         return render(request, 'app/customerregistration.html', {'form': form})
-
+    
 
 @method_decorator(login_required, name='dispatch')
 class ProfileView(View):
